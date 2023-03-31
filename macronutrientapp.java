@@ -1,84 +1,43 @@
-package bufferedfloatinput;
-import java.io.*; 
+import java.util.Scanner;
 
-public class Main 
-{ 
-     public static void main(String[] args) throws IOException 
-     { 
-           
-        String male;
-        String female;
-        String op;
-        String name;
-        int numAge;
-        float age;
-        char gender; 
-        char goal;
-        float actlevel;
-        float num1, num2;
-        float num3;
-        float weight;
-        float height;
-        int num4;
-        String od;
-        float val1, val2, val3, mod1, mod2;
-        
-        
-           BufferedReader consoleInput=new BufferedReader(new InputStreamReader(System.in)); 
- 
-          System.out.print("please enter your weight(lbs): "); 
-          weight=Integer.parseInt(consoleInput.readLine()); 
- 
-          System.out.print("please enter your height(cm): "); 
-          height=Integer.parseInt(consoleInput.readLine()); 
-          
-          System.out.print("please enter your gender (male/female): "); 
-          gender=consoleInput.readLine().charAt(0); 
-          
-          System.out.print("please enter your age: "); 
-          age=Integer.parseInt(consoleInput.readLine()); 
-          
-          System.out.print("please enter your activity level (1-5): "); 
-          actlevel=Integer.parseInt(consoleInput.readLine()); 
-          
-          System.out.print("main goal? (cut/bulk/maintain): "); 
-          goal=consoleInput.readLine().charAt(0); 
-          
-          if (op == "male")
-          {
-                val1 = ((10.0 * weight) + (6.25 * height) - ( 5.0 * age) - 161.0) * actlevel;
-                
-                System.out.println("Your maintenance calories is " + val1);
-          }
-          
-          else if (op == "female") 
-          {
-                val2 = ((10 * weight) + (6.25 * height) - ( 5 * age) + 5) * actlevel;
-                System.out.println("Your maintenance calories is " + val2);
-          }
-          else 
-          {
-                System.out.println("Error, Try again");
-          }
- 
- 
-        if ((od == "cutting") && (op == "male"))
-        {
-            mod1 = val1 - 500;
-            System.out.println("Your primary calories for cutting is " + mod1);
+public class MaintenanceCalories {
+    // Set the Harris-Benedict constants
+    private static final double MALE_CONSTANT = 88.36;
+    private static final double FEMALE_CONSTANT = 447.6;
+    private static final double HEIGHT_CONSTANT = 4.7;
+    private static final double WEIGHT_CONSTANT = 13.7;
+    private static final double AGE_CONSTANT = 5.0;
+
+    public static void main(String[] args) {
+        // Create a Scanner object for user input
+        Scanner input = new Scanner(System.in);
+
+        // Declare variables for the user's information
+        char gender;
+        int age;
+        double height, weight, activity_level;
+
+        // Ask for the user's information
+        System.out.print("Enter your gender (M or F): ");
+        gender = input.next().charAt(0);
+        System.out.print("Enter your age: ");
+        age = input.nextInt();
+        System.out.print("Enter your height in cm: ");
+        height = input.nextDouble();
+        System.out.print("Enter your weight in kg: ");
+        weight = input.nextDouble();
+        System.out.print("Enter your activity level (1.2 for sedentary, 1.375 for light activity, 1.55 for moderate activity, 1.725 for very active, or 1.9 for extra active): ");
+        activity_level = input.nextDouble();
+
+        // Calculate the maintenance calories based on the user's information
+        double maintenance_calories;
+        if (gender == 'M') {
+            maintenance_calories = (MALE_CONSTANT + (WEIGHT_CONSTANT * weight) + (HEIGHT_CONSTANT * height) - (AGE_CONSTANT * age)) * activity_level;
+        } else {
+            maintenance_calories = (FEMALE_CONSTANT + (WEIGHT_CONSTANT * weight) + (HEIGHT_CONSTANT * height) - (AGE_CONSTANT * age)) * activity_level;
         }
-    
-        else if((od == "cutting") && (op == "female"))
-        {
-            mod2 = val2 - 500;
-            System.out.println("Your primary calories for bulking is " + mod2);
-        }
-    
-        else 
-        {
-            System.out.println("Error, something went wrong");
-        }
- 
-          
-     } 
-} 
+
+        // Print the calculated maintenance calories
+        System.out.println("Your maintenance calories are: " + maintenance_calories);
+    }
+}
